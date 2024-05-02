@@ -1,6 +1,7 @@
 ﻿using Amazon;
 using Microsoft.Extensions.Configuration;
 using PDFTextractPOAnalyzer;
+using PDFTextractPOAnalyzer.Model;
 
 public class Program
 {
@@ -19,8 +20,8 @@ public class Program
 
         try
         {
-            string jobId = await textractFacade.UploadPdfAndExtractExpensesAsync(filePath);
-            Console.WriteLine($"Textract job started with ID: {jobId}");
+            Deal deal = await textractFacade.UploadPdfAndExtractExpensesAsync(filePath);
+            Console.WriteLine($"Textract job started with ID: {deal}");
 
             // Monitor job status and retrieve results...
         }

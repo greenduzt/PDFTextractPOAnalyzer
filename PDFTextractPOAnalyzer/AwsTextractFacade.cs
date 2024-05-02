@@ -21,7 +21,7 @@ namespace PDFTextractPOAnalyzer
             _region = r;
         }
 
-        public async Task<string> UploadPdfAndExtractExpensesAsync(string filePath)
+        public async Task<Deal> UploadPdfAndExtractExpensesAsync(string filePath)
         {
             var accessKey = _config["AWS:AccessKey"];
             var secretKey = _config["AWS:SecretKey"];
@@ -54,7 +54,7 @@ namespace PDFTextractPOAnalyzer
             }
         }
 
-        private async Task<string> StartExpenseAnalysisAsync(string accessKey, string secretKey, string bucketName, string filePath)
+        private async Task<Deal> StartExpenseAnalysisAsync(string accessKey, string secretKey, string bucketName, string filePath)
         {
             using (var textractClient = new AmazonTextractClient(accessKey, secretKey, _region))
             {
@@ -70,6 +70,7 @@ namespace PDFTextractPOAnalyzer
                     }
                 };
 
+                Deal deal = new Deal();
                 var startResponse = await textractClient.StartExpenseAnalysisAsync(startRequest);
                 string jobId = startResponse.JobId;
                 Console.WriteLine($"Textract job started with ID: {jobId}");
@@ -89,14 +90,14 @@ namespace PDFTextractPOAnalyzer
                     Console.WriteLine("Textract job succeeded. Retrieving results...");
                     // Process the response to retrieve the extracted expenses
                     var response = await textractClient.GetExpenseAnalysisAsync(new GetExpenseAnalysisRequest { JobId = jobId });
-                    Deal deal = ProcessResponse(response); // Handle the response
+                    deal = ProcessResponse(response); // Handle the response
                 }
                 else
                 {
                     Console.WriteLine($"Textract job failed with status: {jobStatus}");
                 }
 
-                return jobId;
+                return deal;
             }
         }
         private Deal ProcessResponse(GetExpenseAnalysisResponse response)
@@ -204,10 +205,8 @@ namespace PDFTextractPOAnalyzer
                         }
                     }
                     deal.LineItems.Add(lineItem);
-                }
-               
+                }               
             }
-
             return deal;
         }
     }
