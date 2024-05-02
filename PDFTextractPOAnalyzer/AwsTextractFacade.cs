@@ -4,6 +4,9 @@ using Amazon.S3.Model;
 using Amazon.Textract;
 using Amazon.Textract.Model;
 using Microsoft.Extensions.Configuration;
+using PDFTextractPOAnalyzer.Core;
+using PDFTextractPOAnalyzer.Model;
+using System.Text.RegularExpressions;
 using S3Object = Amazon.Textract.Model.S3Object;
 
 namespace PDFTextractPOAnalyzer
@@ -86,7 +89,7 @@ namespace PDFTextractPOAnalyzer
                     Console.WriteLine("Textract job succeeded. Retrieving results...");
                     // Process the response to retrieve the extracted expenses
                     var response = await textractClient.GetExpenseAnalysisAsync(new GetExpenseAnalysisRequest { JobId = jobId });
-                    ProcessResponse(response); // Handle the response
+                    Deal deal = ProcessResponse(response); // Handle the response
                 }
                 else
                 {
@@ -96,35 +99,116 @@ namespace PDFTextractPOAnalyzer
                 return jobId;
             }
         }
-        private void ProcessResponse(GetExpenseAnalysisResponse response)
+        private Deal ProcessResponse(GetExpenseAnalysisResponse response)
         {
+            Deal deal = new Deal();
+            deal.Company = new Company();
+            deal.DeliveryAddress = new Address();
+            deal.LineItems = new List<LineItems>();
+
             foreach (var itemR in response.ExpenseDocuments)
             {
+                Console.WriteLine("***START OF ORDER***");
                 Console.WriteLine("***SUMMARY FIELDS***");
                 foreach (var item in itemR.SummaryFields)
                 {
-                    if (item.Type.Text.Equals("RECEIVER_ADDRESS"))
-                    {
-                        // Handle RECEIVER_ADDRESS
-                    }
                     Console.WriteLine("[" + item.Type.Text + "] " + item.LabelDetection?.Text + " : " + item.ValueDetection.Text ?? "");
+                    if (item.Type.Text.Equals("PO_NUMBER"))
+                    {
+                        deal.PurchaseOrderNo = item.ValueDetection.Text;
+                    }
+                    else if (item.Type.Text.Equals("VENDOR_NAME"))
+                    {
+                        deal.Company.Name = item.ValueDetection.Text;
+                    }
+                    else if (item.Type.Text.Equals("RECEIVER_ADDRESS"))
+                    {
+                        //Get the address details                        
+                        AddressSplitter.SetAddress(item.ValueDetection.Text.Replace('\n', ' '));
+                        deal.DeliveryAddress = AddressSplitter.GetAddress();
+                    }
+                    else if (item.Type.Text.Equals("SUBTOTAL"))
+                    {
+                        deal.SubTotal = decimal.Parse(item.ValueDetection.Text.Trim('$'));
+                    }
+                    else if (item.Type.Text.Equals("TAX"))
+                    {
+                        deal.Tax = decimal.Parse(item.ValueDetection.Text.Trim('$'));
+                    }
+                    else if (item.Type.Text.Equals("TOTAL"))
+                    {
+                        deal.Total = decimal.Parse(item.ValueDetection.Text.Trim('$'));
+                    }
+                    else if (item.Type.Text.Equals("DELIVERY_DATE"))
+                    {
+                        deal.DeliveryDate = item.ValueDetection.Text;
+                    }
+                    else if (item.Type.Text.Equals("VENDOR_ABN_NUMBER"))
+                    {
+                        //remove spaces from ABN
+                        string a = Regex.Replace(item.ValueDetection.Text, @"\s+", "");
+                        //check if the ABN is not A1Rubber ABN
+                        if (!a.Equals("85663589062"))
+                        {
+                            deal.Company.ABN = a;
+                        }
+                    }
+                    else if (item.Type.Text.Equals("VENDOR_URL"))
+                    {
+                        deal.Company.Domain = item.ValueDetection.Text;
+                    }
                 }
+
                 Console.WriteLine("***END OF SUMMARY FIELDS***");
+                Console.WriteLine("***LINE ITEMS***");
 
                 foreach (var itemLIG in itemR.LineItemGroups)
                 {
-                    Console.WriteLine("***LINE ITEMS***");
+                    LineItems lineItem = new LineItems();
+
                     foreach (var itemLI in itemLIG.LineItems)
                     {
+                        string skuToCheck = string.Empty, expenseRawToCheck = string.Empty;
+
                         foreach (var itemLIE in itemLI.LineItemExpenseFields)
                         {
-                            Console.WriteLine("[" + itemLIE.Type.Text + "] " + itemLIE.LabelDetection?.Text + " : " + itemLIE.ValueDetection.Text ?? "");
-                        }
+                            if (itemLIE.Type.Text.Equals("PRODUCT_CODE"))
+                            {
+                                lineItem.SKU = itemLIE.ValueDetection.Text;
+                            }
+                            else if (itemLIE.Type.Text.Equals("ITEM"))
+                            {
+                                lineItem.Name = itemLIE.ValueDetection.Text;
+                            }
+                            else if (itemLIE.Type.Text.Equals("QUANTITY"))
+                            {
+                                lineItem.Quantity = Convert.ToInt16(itemLIE.ValueDetection.Text);
+                            }
+                            else if (itemLIE.Type.Text.Equals("UNIT_PRICE"))
+                            {
+                                lineItem.UnitPrice = decimal.Parse(itemLIE.ValueDetection.Text.Trim('$'));
+                            }
+                            else if (itemLIE.Type.Text.Equals("PRICE"))
+                            {
 
+                            }
+                            else if (itemLIE.Type.Text.Equals("EXPENSE_ROW"))
+                            {
+                                lineItem.ExpenseRaw = itemLIE.ValueDetection.Text;
+                            }
+                            else
+                            {
+                                //Error
+                                deal.OrderNotes += "Incorrect line items";
+                            }
+                        }
                     }
-                    Console.WriteLine("***END OF LINE ITEMS***");
+                    deal.LineItems.Add(lineItem);
                 }
+               
             }
+
+            return deal;
         }
     }
 }

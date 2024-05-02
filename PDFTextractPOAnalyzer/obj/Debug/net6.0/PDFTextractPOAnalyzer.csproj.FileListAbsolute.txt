@@ -3,6 +3,9 @@ D:\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\n
 D:\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\PDFTextractPOAnalyzer.runtimeconfig.json
 D:\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\PDFTextractPOAnalyzer.dll
 D:\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\PDFTextractPOAnalyzer.pdb
+D:\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\AWSSDK.Core.dll
+D:\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\AWSSDK.S3.dll
+D:\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\AWSSDK.Textract.dll
 D:\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\Microsoft.Extensions.Configuration.dll
 D:\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
 D:\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\Microsoft.Extensions.Configuration.FileExtensions.dll
@@ -26,6 +29,3 @@ D:\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\n
 D:\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\PDFTextractPOAnalyzer.pdb
 D:\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\PDFTextractPOAnalyzer.genruntimeconfig.cache
 D:\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\ref\PDFTextractPOAnalyzer.dll
-D:\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\AWSSDK.Core.dll
-D:\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\AWSSDK.S3.dll
-D:\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\AWSSDK.Textract.dll
