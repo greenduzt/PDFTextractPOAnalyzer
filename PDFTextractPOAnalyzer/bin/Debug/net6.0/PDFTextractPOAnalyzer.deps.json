@@ -8,6 +8,9 @@
     ".NETCoreApp,Version=v6.0": {
       "PDFTextractPOAnalyzer/1.0.0": {
         "dependencies": {
+          "AWSSDK.Core": "3.7.303.25",
+          "AWSSDK.S3": "3.7.307.26",
+          "AWSSDK.Textract": "3.7.300.85",
           "Microsoft.Extensions.Configuration": "8.0.0",
           "Microsoft.Extensions.Configuration.Abstractions": "8.0.0",
           "Microsoft.Extensions.Configuration.FileExtensions": "8.0.0",
@@ -15,6 +18,36 @@
         },
         "runtime": {
           "PDFTextractPOAnalyzer.dll": {}
+        }
+      },
+      "AWSSDK.Core/3.7.303.25": {
+        "runtime": {
+          "lib/netcoreapp3.1/AWSSDK.Core.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.303.25"
+          }
+        }
+      },
+      "AWSSDK.S3/3.7.307.26": {
+        "dependencies": {
+          "AWSSDK.Core": "3.7.303.25"
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/AWSSDK.S3.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.307.26"
+          }
+        }
+      },
+      "AWSSDK.Textract/3.7.300.85": {
+        "dependencies": {
+          "AWSSDK.Core": "3.7.303.25"
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/AWSSDK.Textract.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.300.85"
+          }
         }
       },
       "Microsoft.Extensions.Configuration/8.0.0": {
@@ -166,6 +199,27 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "AWSSDK.Core/3.7.303.25": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-o7hGb/Z+foAbC/GQXcGesI0sQvSInFKyJf0uXj+xO5vjYXjijPHsm9UPHSZkfnA8h9GNgSHMwwZvjLjTAl886Q==",
+      "path": "awssdk.core/3.7.303.25",
+      "hashPath": "awssdk.core.3.7.303.25.nupkg.sha512"
+    },
+    "AWSSDK.S3/3.7.307.26": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-154dn71p9CrCEXgYrbhuPcc8upS9RUql4juqNXFqqdlxmfWCqnyeWbck5VJXldzrHxnXQrgmEU4fKbBBIjRIQw==",
+      "path": "awssdk.s3/3.7.307.26",
+      "hashPath": "awssdk.s3.3.7.307.26.nupkg.sha512"
+    },
+    "AWSSDK.Textract/3.7.300.85": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rza7TNPIt6+GyLQfeUiLKiQa+vjH/xlerHPR6Vfy7UGf7hsNjo9wUnajCUj85Kocegvb6RV1yP5XFdU2CskwWA==",
+      "path": "awssdk.textract/3.7.300.85",
+      "hashPath": "awssdk.textract.3.7.300.85.nupkg.sha512"
     },
     "Microsoft.Extensions.Configuration/8.0.0": {
       "type": "package",

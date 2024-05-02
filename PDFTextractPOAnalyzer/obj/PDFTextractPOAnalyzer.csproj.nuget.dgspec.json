@@ -49,6 +49,14 @@
               "target": "Package",
               "version": "[3.7.303.25, )"
             },
+            "AWSSDK.S3": {
+              "target": "Package",
+              "version": "[3.7.307.26, )"
+            },
+            "AWSSDK.Textract": {
+              "target": "Package",
+              "version": "[3.7.300.85, )"
+            },
             "Microsoft.Extensions.Configuration": {
               "target": "Package",
               "version": "[8.0.0, )"
