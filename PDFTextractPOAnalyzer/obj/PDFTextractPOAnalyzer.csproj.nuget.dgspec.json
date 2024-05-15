@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer.csproj": {}
+    "D:\\Projects\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer.csproj": {}
   },
   "projects": {
-    "D:\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer.csproj": {
+    "D:\\Projects\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer.csproj",
+        "projectUniqueName": "D:\\Projects\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer.csproj",
         "projectName": "PDFTextractPOAnalyzer",
-        "projectPath": "D:\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer.csproj",
+        "projectPath": "D:\\Projects\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer.csproj",
         "packagesPath": "C:\\Users\\Chamara.Walaiyadde\\.nuget\\packages\\",
-        "outputPath": "D:\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\obj\\",
+        "outputPath": "D:\\Projects\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -72,6 +72,14 @@
             "Microsoft.Extensions.Configuration.UserSecrets": {
               "target": "Package",
               "version": "[8.0.0, )"
+            },
+            "Serilog": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Serilog.Sinks.File": {
+              "target": "Package",
+              "version": "[5.0.0, )"
             }
           },
           "imports": [

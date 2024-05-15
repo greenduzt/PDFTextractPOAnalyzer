@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using PDFTextractPOAnalyzer;
 using PDFTextractPOAnalyzer.Model;
+using Serilog.Events;
+using Serilog;
 
 public class Program
 {
@@ -16,6 +18,17 @@ public class Program
             .AddUserSecrets<Program>(true)
             .Build();
 
+        //Configure the logging file
+        Log.Logger = new LoggerConfiguration()
+               .MinimumLevel.Debug()
+               .WriteTo.File($"{config["Logging:Path"]} - {DateTime.Now.ToString("yyyyMMdd_HHmmss")}.txt",
+                   rollingInterval: RollingInterval.Day,
+                   restrictedToMinimumLevel: LogEventLevel.Debug,
+                   shared: true)
+               .CreateLogger();
+
+        Log.Information("---PDFAnalyzer Started---");
+
         var textractFacade = new AwsTextractFacade(config, region);
 
         try
@@ -23,11 +36,14 @@ public class Program
             Deal deal = await textractFacade.UploadPdfAndExtractExpensesAsync(filePath);
             Console.WriteLine($"Textract job started with ID: {deal}");
 
-            // Monitor job status and retrieve results...
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error: {ex.Message}");
+            Log.Error($"Error: {ex.Message}");
+        }
+        finally
+        {
+            Log.Information("---PDFAnalyzer Ended---");
         }
     }
 }

@@ -230,6 +230,35 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
+      "Serilog/3.1.1": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Serilog.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Serilog.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Serilog.Sinks.File/5.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Serilog": "2.10.0"
+        },
+        "compile": {
+          "lib/net5.0/Serilog.Sinks.File.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net5.0/Serilog.Sinks.File.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
       "System.Runtime.CompilerServices.Unsafe/6.0.0": {
         "type": "package",
         "compile": {
@@ -661,6 +690,60 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "Serilog/3.1.1": {
+      "sha512": "P6G4/4Kt9bT635bhuwdXlJ2SCqqn2nhh4gqFqQueCOr9bK/e7W9ll/IoX1Ter948cV2Z/5+5v8pAfJYUISY03A==",
+      "type": "package",
+      "path": "serilog/3.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "icon.png",
+        "lib/net462/Serilog.dll",
+        "lib/net462/Serilog.xml",
+        "lib/net471/Serilog.dll",
+        "lib/net471/Serilog.xml",
+        "lib/net5.0/Serilog.dll",
+        "lib/net5.0/Serilog.xml",
+        "lib/net6.0/Serilog.dll",
+        "lib/net6.0/Serilog.xml",
+        "lib/net7.0/Serilog.dll",
+        "lib/net7.0/Serilog.xml",
+        "lib/netstandard2.0/Serilog.dll",
+        "lib/netstandard2.0/Serilog.xml",
+        "lib/netstandard2.1/Serilog.dll",
+        "lib/netstandard2.1/Serilog.xml",
+        "serilog.3.1.1.nupkg.sha512",
+        "serilog.nuspec"
+      ]
+    },
+    "Serilog.Sinks.File/5.0.0": {
+      "sha512": "uwV5hdhWPwUH1szhO8PJpFiahqXmzPzJT/sOijH/kFgUx+cyoDTMM8MHD0adw9+Iem6itoibbUXHYslzXsLEAg==",
+      "type": "package",
+      "path": "serilog.sinks.file/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "images/icon.png",
+        "lib/net45/Serilog.Sinks.File.dll",
+        "lib/net45/Serilog.Sinks.File.pdb",
+        "lib/net45/Serilog.Sinks.File.xml",
+        "lib/net5.0/Serilog.Sinks.File.dll",
+        "lib/net5.0/Serilog.Sinks.File.pdb",
+        "lib/net5.0/Serilog.Sinks.File.xml",
+        "lib/netstandard1.3/Serilog.Sinks.File.dll",
+        "lib/netstandard1.3/Serilog.Sinks.File.pdb",
+        "lib/netstandard1.3/Serilog.Sinks.File.xml",
+        "lib/netstandard2.0/Serilog.Sinks.File.dll",
+        "lib/netstandard2.0/Serilog.Sinks.File.pdb",
+        "lib/netstandard2.0/Serilog.Sinks.File.xml",
+        "lib/netstandard2.1/Serilog.Sinks.File.dll",
+        "lib/netstandard2.1/Serilog.Sinks.File.pdb",
+        "lib/netstandard2.1/Serilog.Sinks.File.xml",
+        "serilog.sinks.file.5.0.0.nupkg.sha512",
+        "serilog.sinks.file.nuspec"
+      ]
+    },
     "System.Runtime.CompilerServices.Unsafe/6.0.0": {
       "sha512": "/iUeP3tq1S0XdNNoMz5C9twLSrM/TH+qElHkXWaPvuNOt+99G75NrV0OS2EqHx5wMN7popYjpc8oTjC1y16DLg==",
       "type": "package",
@@ -803,7 +886,9 @@
       "Microsoft.Extensions.Configuration >= 8.0.0",
       "Microsoft.Extensions.Configuration.Abstractions >= 8.0.0",
       "Microsoft.Extensions.Configuration.FileExtensions >= 8.0.0",
-      "Microsoft.Extensions.Configuration.UserSecrets >= 8.0.0"
+      "Microsoft.Extensions.Configuration.UserSecrets >= 8.0.0",
+      "Serilog >= 3.1.1",
+      "Serilog.Sinks.File >= 5.0.0"
     ]
   },
   "packageFolders": {
@@ -813,11 +898,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer.csproj",
+      "projectUniqueName": "D:\\Projects\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer.csproj",
       "projectName": "PDFTextractPOAnalyzer",
-      "projectPath": "D:\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer.csproj",
+      "projectPath": "D:\\Projects\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer.csproj",
       "packagesPath": "C:\\Users\\Chamara.Walaiyadde\\.nuget\\packages\\",
-      "outputPath": "D:\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\obj\\",
+      "outputPath": "D:\\Projects\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -878,6 +963,14 @@
           "Microsoft.Extensions.Configuration.UserSecrets": {
             "target": "Package",
             "version": "[8.0.0, )"
+          },
+          "Serilog": {
+            "target": "Package",
+            "version": "[3.1.1, )"
+          },
+          "Serilog.Sinks.File": {
+            "target": "Package",
+            "version": "[5.0.0, )"
           }
         },
         "imports": [
