@@ -4,13 +4,14 @@ using PDFTextractPOAnalyzer;
 using PDFTextractPOAnalyzer.Model;
 using Serilog.Events;
 using Serilog;
+using System.Text;
 
 public class Program
 {
     public static async Task Main(string[] args)
     {
         var region = RegionEndpoint.APSoutheast2;
-        string filePath = @"D:\\Attachments\Purchase_Order_No_42363.pdf";
+        string filePath = @"D:\\Attachments\test_po1.pdf";
 
         //Set up the config to load the user secrets
         IConfiguration config = new ConfigurationBuilder()
@@ -33,9 +34,7 @@ public class Program
 
         try
         {
-            Deal deal = await textractFacade.UploadPdfAndExtractExpensesAsync(filePath);
-            Console.WriteLine($"Textract job started with ID: {deal}");
-
+            Deal deal = await textractFacade.UploadPdfAndExtractExpensesAsync(filePath);         
         }
         catch (Exception ex)
         {
@@ -44,6 +43,8 @@ public class Program
         finally
         {
             Log.Information("---PDFAnalyzer Ended---");
+            // Close and flush the Serilog logger
+            Log.CloseAndFlush();
         }
     }
 }
