@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using PDFTextractPOAnalyzer.Core;
 using PDFTextractPOAnalyzer.Model;
 using Serilog;
+using System;
 using System.Text;
 using System.Text.RegularExpressions;
 using S3Object = Amazon.Textract.Model.S3Object;
@@ -157,6 +158,7 @@ namespace PDFTextractPOAnalyzer
             Deal deal = new Deal();
             deal.Company = new Company();
             deal.DeliveryAddress = new Address();
+            deal.Emails = new List<string>();
             deal.LineItems = new List<LineItems>();
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -164,42 +166,56 @@ namespace PDFTextractPOAnalyzer
             {
                 foreach (var itemR in response.ExpenseDocuments)
                 {
-                    stringBuilder.AppendLine("Start of the order");
-                    stringBuilder.AppendLine("Summary Fields");
+                    Log.Information("Start of the order");
+                    Log.Information("Summary Fields");
+                   
                     foreach (var item in itemR.SummaryFields)
                     {
+                        // Collecting email addresses to allocate sales rep
+                        if (item.ValueDetection.Text.Contains('@'))
+                        {
+                            deal.Emails.Add(item.ValueDetection.Text);
+                        }
+                        bool found = false;
                         // Handling each summary field type
                         switch (item.Type.Text)
                         {
                             case "PO_NUMBER":
-                                deal.PurchaseOrderNo = item.ValueDetection.Text;
-                                stringBuilder.Append($"PO No : {deal.PurchaseOrderNo}|");
+                                deal.PurchaseOrderNo = item.ValueDetection.Text;                                
+                                stringBuilder.Append($"PO No : {deal.PurchaseOrderNo}");
+                                found = true;
                                 break;
                             case "VENDOR_NAME":
                                 deal.Company.Name = item.ValueDetection.Text;
-                                stringBuilder.Append($"Company : {deal.Company.Name}|");
+                                stringBuilder.Append($"Company : {deal.Company.Name}");
+                                found= true;
                                 break;
                             case "RECEIVER_ADDRESS":
                                 // Getting the address details                        
                                 AddressSplitter.SetAddress(item.ValueDetection.Text.Replace('\n', ' '));
                                 deal.DeliveryAddress = AddressSplitter.GetAddress();
-                                stringBuilder.Append($"Delivery Address : {deal.DeliveryAddress}|");
+                                stringBuilder.Append($"Delivery Address : {deal.DeliveryAddress}");
+                                found = true;  
                                 break;
                             case "SUBTOTAL":
                                 deal.SubTotal = decimal.Parse(item.ValueDetection.Text.Trim('$'));
-                                stringBuilder.Append($"SubTotal : {deal.SubTotal}|");
+                                stringBuilder.Append($"SubTotal : {deal.SubTotal}");
+                                found = true;
                                 break;
                             case "TAX":
                                 deal.Tax = decimal.Parse(item.ValueDetection.Text.Trim('$'));
-                                stringBuilder.Append($"Tax : {deal.Tax}|");
+                                stringBuilder.Append($"Tax : {deal.Tax}");
+                                found = true;
                                 break;
                             case "TOTAL":
                                 deal.Total = decimal.Parse(item.ValueDetection.Text.Trim('$'));
-                                stringBuilder.Append($"Total : {deal.Total}|");
+                                stringBuilder.Append($"Total : {deal.Total}");
+                                found = true;
                                 break;
                             case "DELIVERY_DATE":
                                 deal.DeliveryDate = item.ValueDetection.Text;
-                                stringBuilder.Append($"Delivery Date : {deal.DeliveryDate}|");
+                                stringBuilder.Append($"Delivery Date : {deal.DeliveryDate}");
+                                found = true;
                                 break;
                             case "VENDOR_ABN_NUMBER":
                                 // Removing spaces from ABN
@@ -208,59 +224,85 @@ namespace PDFTextractPOAnalyzer
                                 if (!a.Equals("85663589062"))
                                 {
                                     deal.Company.ABN = a;
-                                    stringBuilder.Append($"ABN : {deal.Company.ABN}|");
+                                    stringBuilder.Append($"ABN : {deal.Company.ABN}");
+                                    found = true;
                                 }
                                 break;
                             case "VENDOR_URL":
                                 deal.Company.Domain = item.ValueDetection.Text;
-                                stringBuilder.Append($"Domain : {deal.Company.Domain}|");
+                                stringBuilder.Append($"Domain : {deal.Company.Domain}");
+                                found = true;
                                 break;
                             default:                                
                                 break;
                         }
+                        if (item != itemR.SummaryFields.Last() && found)
+                        {
+                            stringBuilder.Append("|");
+                        }   
                     }
 
-                    stringBuilder.AppendLine("End Of Summary Fields");
-                    stringBuilder.AppendLine("Line Items");
+                    Log.Information(stringBuilder.ToString());
+
+                    //Constructing deal name
+                    deal.DealName = $" {deal.Company} - {deal.PurchaseOrderNo}";
+                    
+                    Log.Information("End Of Summary Fields");
+                    Log.Information("Line Items");
+                    bool itemFound = false;
+                    stringBuilder.Clear();
 
                     foreach (var itemLIG in itemR.LineItemGroups)
                     {
                         LineItems lineItem = new LineItems();
+                        stringBuilder.Clear();
 
                         foreach (var itemLI in itemLIG.LineItems)
                         {
+                            stringBuilder.Clear();
+                            //stringBuilder.AppendLine();
                             foreach (var itemLIE in itemLI.LineItemExpenseFields)
                             {
+                                itemFound = false;
                                 switch (itemLIE.Type.Text)
                                 {
                                     case "PRODUCT_CODE":
                                         lineItem.SKU = itemLIE.ValueDetection.Text;
-                                        stringBuilder.Append($"Product Code : {lineItem.SKU}|");
+                                        stringBuilder.Append($"Product Code : {lineItem.SKU}");
+                                        itemFound = true;
                                         break;
                                     case "ITEM":
                                         lineItem.Name = itemLIE.ValueDetection.Text;
-                                        stringBuilder.Append($"Name : {lineItem.Name}|");
+                                        stringBuilder.Append($"Name : {lineItem.Name}");
+                                        itemFound = true;
                                         break;
                                     case "QUANTITY":
                                         lineItem.Quantity = Convert.ToInt16(itemLIE.ValueDetection.Text);
-                                        stringBuilder.Append($"Qty : {lineItem.Quantity}|");
+                                        stringBuilder.Append($"Qty : {lineItem.Quantity}");
+                                        itemFound = true;
                                         break;
                                     case "UNIT_PRICE":
                                         lineItem.UnitPrice = decimal.Parse(itemLIE.ValueDetection.Text.Trim('$'));
-                                        stringBuilder.Append($"Price : {lineItem.UnitPrice}|");
+                                        stringBuilder.Append($"Price : {lineItem.UnitPrice}");
+                                        itemFound = true;
                                         break;
                                     case "EXPENSE_ROW":
                                         lineItem.ExpenseRaw = itemLIE.ValueDetection.Text;
-                                        stringBuilder.Append($"Name : {lineItem.Name}|");
+                                        stringBuilder.Append($"Expense Row : {lineItem.ExpenseRaw}");
+                                        itemFound = true;
                                         break;
                                     default:
                                         break;
                                 }
+                                if(itemLIE != itemLI.LineItemExpenseFields.Last() && itemFound)
+                                {
+                                    stringBuilder.Append("|");
+                                }
                             }
+                            Log.Information(stringBuilder.ToString());
                         }
-                        deal.LineItems.Add(lineItem);
-                    }
-                    Log.Information(stringBuilder.ToString());
+                        deal.LineItems.Add(lineItem);                        
+                    }                    
                 }
             }
             catch (Exception ex)
