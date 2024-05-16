@@ -62,3 +62,5 @@ D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\refint\
 D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\PDFTextractPOAnalyzer.pdb
 D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\PDFTextractPOAnalyzer.genruntimeconfig.cache
 D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\ref\PDFTextractPOAnalyzer.dll
+D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\CoreLibrary.dll
+D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\CoreLibrary.pdb

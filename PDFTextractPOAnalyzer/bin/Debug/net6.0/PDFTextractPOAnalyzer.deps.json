@@ -11,6 +11,7 @@
           "AWSSDK.Core": "3.7.303.25",
           "AWSSDK.S3": "3.7.307.26",
           "AWSSDK.Textract": "3.7.300.85",
+          "CoreLibrary": "1.0.0",
           "Microsoft.Extensions.Configuration": "8.0.0",
           "Microsoft.Extensions.Configuration.Abstractions": "8.0.0",
           "Microsoft.Extensions.Configuration.FileExtensions": "8.0.0",
@@ -212,6 +213,11 @@
             "fileVersion": "8.0.23.53103"
           }
         }
+      },
+      "CoreLibrary/1.0.0": {
+        "runtime": {
+          "CoreLibrary.dll": {}
+        }
       }
     }
   },
@@ -339,6 +345,11 @@
       "sha512": "sha512-OdrZO2WjkiEG6ajEFRABTRCi/wuXQPxeV6g8xvUJqdxMvvuCCEk86zPla8UiIQJz3durtUEbNyY/3lIhS0yZvQ==",
       "path": "system.text.json/8.0.0",
       "hashPath": "system.text.json.8.0.0.nupkg.sha512"
+    },
+    "CoreLibrary/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }
