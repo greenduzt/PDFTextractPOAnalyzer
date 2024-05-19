@@ -4,14 +4,14 @@
     "D:\\Projects\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\CoreLibrary\\CoreLibrary.csproj": {
+    "D:\\Projects\\CoreLibrary.Models\\CoreLibrary.Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\CoreLibrary\\CoreLibrary.csproj",
-        "projectName": "CoreLibrary",
-        "projectPath": "D:\\Projects\\CoreLibrary\\CoreLibrary.csproj",
+        "projectUniqueName": "D:\\Projects\\CoreLibrary.Models\\CoreLibrary.Models.csproj",
+        "projectName": "CoreLibrary.Models",
+        "projectPath": "D:\\Projects\\CoreLibrary.Models\\CoreLibrary.Models.csproj",
         "packagesPath": "C:\\Users\\Chamara.Walaiyadde\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\CoreLibrary\\obj\\",
+        "outputPath": "D:\\Projects\\CoreLibrary.Models\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -93,8 +93,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\Projects\\CoreLibrary\\CoreLibrary.csproj": {
-                "projectPath": "D:\\Projects\\CoreLibrary\\CoreLibrary.csproj"
+              "D:\\Projects\\CoreLibrary.Models\\CoreLibrary.Models.csproj": {
+                "projectPath": "D:\\Projects\\CoreLibrary.Models\\CoreLibrary.Models.csproj"
               }
             }
           }

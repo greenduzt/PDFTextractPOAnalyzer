@@ -4,6 +4,7 @@ using Amazon.S3.Model;
 using Amazon.Textract;
 using Amazon.Textract.Model;
 using CoreLibrary;
+using CoreLibrary.Models;
 using Microsoft.Extensions.Configuration;
 using PDFTextractPOAnalyzer.Core;
 using Serilog;

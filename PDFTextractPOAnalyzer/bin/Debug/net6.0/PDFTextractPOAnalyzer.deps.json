@@ -11,7 +11,7 @@
           "AWSSDK.Core": "3.7.303.25",
           "AWSSDK.S3": "3.7.307.26",
           "AWSSDK.Textract": "3.7.300.85",
-          "CoreLibrary": "1.0.0",
+          "CoreLibrary.Models": "1.0.0",
           "Microsoft.Extensions.Configuration": "8.0.0",
           "Microsoft.Extensions.Configuration.Abstractions": "8.0.0",
           "Microsoft.Extensions.Configuration.FileExtensions": "8.0.0",
@@ -214,9 +214,9 @@
           }
         }
       },
-      "CoreLibrary/1.0.0": {
+      "CoreLibrary.Models/1.0.0": {
         "runtime": {
-          "CoreLibrary.dll": {}
+          "CoreLibrary.Models.dll": {}
         }
       }
     }
@@ -346,7 +346,7 @@
       "path": "system.text.json/8.0.0",
       "hashPath": "system.text.json.8.0.0.nupkg.sha512"
     },
-    "CoreLibrary/1.0.0": {
+    "CoreLibrary.Models/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

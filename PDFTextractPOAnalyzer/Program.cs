@@ -1,16 +1,11 @@
-﻿using Amazon;
-using Microsoft.Extensions.Configuration;
+﻿using CoreLibrary.Models;
 using PDFTextractPOAnalyzer;
-
-using Serilog.Events;
-using Serilog;
-using System.Text;
 
 public class Program
 {
     public static async Task Main(string[] args)
     {
         ProcessPdf processPdf = new ProcessPdf();
-        await processPdf.ProcessPdfAsync();
+        await processPdf.ProcessPdfAsync(new Email());
     }
 }

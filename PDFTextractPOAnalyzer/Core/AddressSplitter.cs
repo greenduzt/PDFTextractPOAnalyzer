@@ -1,4 +1,5 @@
 ﻿using CoreLibrary;
+using CoreLibrary.Models;
 using System.Text.RegularExpressions;
 
 namespace PDFTextractPOAnalyzer.Core

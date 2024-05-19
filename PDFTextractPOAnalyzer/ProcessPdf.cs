@@ -1,5 +1,6 @@
 ﻿using Amazon;
 using CoreLibrary;
+using CoreLibrary.Models;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Events;
@@ -8,10 +9,11 @@ namespace PDFTextractPOAnalyzer
 {
     public class ProcessPdf
     {
-        public async Task<Deal> ProcessPdfAsync()
+        public async Task<Deal> ProcessPdfAsync(Email email)
         {
+            
             var region = RegionEndpoint.APSoutheast2;
-            string filePath = @"D:\\Attachments\test_po1.pdf";
+            string filePath = $"{email.FilePath}\\{email.FileName}.pdf";// @"D:\\Attachments\test_po1.pdf";
 
             // Set up the config to load the user secrets
             IConfiguration config = new ConfigurationBuilder()
@@ -30,11 +32,18 @@ namespace PDFTextractPOAnalyzer
 
             Log.Information("---PDFAnalyzer Started---");
 
+            if (email == null)
+            {
+                Log.Error("Email object is null");
+                return null;
+            }
+
             var textractFacade = new AwsTextractFacade(config, region);
 
             try
             {
                 Deal deal = await textractFacade.UploadPdfAndExtractExpensesAsync(filePath);
+                deal.FilePath = email.FilePath;
                 return deal;
             }
             catch (Exception ex)

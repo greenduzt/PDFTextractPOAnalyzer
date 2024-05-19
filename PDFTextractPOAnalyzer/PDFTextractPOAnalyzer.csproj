@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\CoreLibrary\CoreLibrary.csproj" />
+    <ProjectReference Include="..\..\CoreLibrary.Models\CoreLibrary.Models.csproj" />
   </ItemGroup>
 
 </Project>

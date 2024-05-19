@@ -320,14 +320,14 @@
           "buildTransitive/net6.0/System.Text.Json.targets": {}
         }
       },
-      "CoreLibrary/1.0.0": {
+      "CoreLibrary.Models/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "compile": {
-          "bin/placeholder/CoreLibrary.dll": {}
+          "bin/placeholder/CoreLibrary.Models.dll": {}
         },
         "runtime": {
-          "bin/placeholder/CoreLibrary.dll": {}
+          "bin/placeholder/CoreLibrary.Models.dll": {}
         }
       }
     }
@@ -887,10 +887,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "CoreLibrary/1.0.0": {
+    "CoreLibrary.Models/1.0.0": {
       "type": "project",
-      "path": "../../CoreLibrary/CoreLibrary.csproj",
-      "msbuildProject": "../../CoreLibrary/CoreLibrary.csproj"
+      "path": "../../CoreLibrary.Models/CoreLibrary.Models.csproj",
+      "msbuildProject": "../../CoreLibrary.Models/CoreLibrary.Models.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -898,7 +898,7 @@
       "AWSSDK.Core >= 3.7.303.25",
       "AWSSDK.S3 >= 3.7.307.26",
       "AWSSDK.Textract >= 3.7.300.85",
-      "CoreLibrary >= 1.0.0",
+      "CoreLibrary.Models >= 1.0.0",
       "Microsoft.Extensions.Configuration >= 8.0.0",
       "Microsoft.Extensions.Configuration.Abstractions >= 8.0.0",
       "Microsoft.Extensions.Configuration.FileExtensions >= 8.0.0",
@@ -940,8 +940,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Projects\\CoreLibrary\\CoreLibrary.csproj": {
-              "projectPath": "D:\\Projects\\CoreLibrary\\CoreLibrary.csproj"
+            "D:\\Projects\\CoreLibrary.Models\\CoreLibrary.Models.csproj": {
+              "projectPath": "D:\\Projects\\CoreLibrary.Models\\CoreLibrary.Models.csproj"
             }
           }
         }
