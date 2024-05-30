@@ -51,6 +51,8 @@ D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\Serilog
 D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\System.Text.Encodings.Web.dll
 D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\System.Text.Json.dll
 D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\CoreLibrary.Models.dll
+D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\CoreLibrary.Models.pdb
 D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\PDFTextractPOAnalyzer.csproj.AssemblyReference.cache
 D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\PDFTextractPOAnalyzer.GeneratedMSBuildEditorConfig.editorconfig
 D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\PDFTextractPOAnalyzer.AssemblyInfoInputs.cache
@@ -62,5 +64,3 @@ D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\refint\
 D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\PDFTextractPOAnalyzer.pdb
 D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\PDFTextractPOAnalyzer.genruntimeconfig.cache
 D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\ref\PDFTextractPOAnalyzer.dll
-D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\CoreLibrary.Models.dll
-D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\CoreLibrary.Models.pdb

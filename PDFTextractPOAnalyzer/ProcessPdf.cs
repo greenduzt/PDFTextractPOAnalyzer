@@ -1,5 +1,4 @@
 ﻿using Amazon;
-using CoreLibrary;
 using CoreLibrary.Models;
 using Microsoft.Extensions.Configuration;
 using Serilog;
@@ -9,28 +8,28 @@ namespace PDFTextractPOAnalyzer
 {
     public class ProcessPdf
     {
-        public async Task<Deal> ProcessPdfAsync(Email email)
+        private readonly IConfiguration _config;
+
+        public ProcessPdf(IConfiguration config)
         {
-            
+            _config = config;
+        }
+
+        public async Task<Deal> ProcessPdfAsync(Email email)
+        {            
             var region = RegionEndpoint.APSoutheast2;
-            string filePath = $"{email.FilePath}\\{email.FileName}.pdf";// @"D:\\Attachments\test_po1.pdf";
-
-            // Set up the config to load the user secrets
-            IConfiguration config = new ConfigurationBuilder()
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddUserSecrets<Program>(true)
-                .Build();
-
+         
             // Configure the logging file
-            Log.Logger = new LoggerConfiguration()
-                   .MinimumLevel.Debug()
-                   .WriteTo.File($"{config["Logging:Path"]} - {DateTime.Now.ToString("yyyyMMdd_HHmmss")}.txt",
-                       rollingInterval: RollingInterval.Day,
-                       restrictedToMinimumLevel: LogEventLevel.Debug,
-                       shared: true)
-                   .CreateLogger();
+            //Log.Logger = new LoggerConfiguration()
+            //       .MinimumLevel.Debug()
+            //       .WriteTo.File($"{_config["Logging:Path"]} - {DateTime.Now.ToString("yyyyMMdd_HHmmss")}.txt",
+            //           rollingInterval: RollingInterval.Day,
+            //           restrictedToMinimumLevel: LogEventLevel.Debug,
+            //           shared: true)
+            //       .CreateLogger();
 
             Log.Information("---PDFAnalyzer Started---");
+
 
             if (email == null)
             {
@@ -38,12 +37,14 @@ namespace PDFTextractPOAnalyzer
                 return null;
             }
 
-            var textractFacade = new AwsTextractFacade(config, region);
+            string filePath = $"{email.FilePath}\\{email.FileName}";
+
+            var textractFacade = new AwsTextractFacade(_config, region, email);
 
             try
             {
                 Deal deal = await textractFacade.UploadPdfAndExtractExpensesAsync(filePath);
-                deal.FilePath = email.FilePath;
+
                 return deal;
             }
             catch (Exception ex)
@@ -54,7 +55,7 @@ namespace PDFTextractPOAnalyzer
             {
                 Log.Information("---PDFAnalyzer Ended---");
                 // Close and flush the Serilog logger
-                Log.CloseAndFlush();
+                //Log.CloseAndFlush();
             }
 
             return null;

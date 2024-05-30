@@ -3,7 +3,6 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.Textract;
 using Amazon.Textract.Model;
-using CoreLibrary;
 using CoreLibrary.Models;
 using Microsoft.Extensions.Configuration;
 using PDFTextractPOAnalyzer.Core;
@@ -18,10 +17,12 @@ namespace PDFTextractPOAnalyzer
     {
         private readonly IConfiguration _config;
         private readonly RegionEndpoint _region;
-        public AwsTextractFacade(IConfiguration c, RegionEndpoint r)
+        private Email _email;
+        public AwsTextractFacade(IConfiguration c, RegionEndpoint r, Email email)
         {
             _config = c;          
             _region = r;
+            _email = email;
         }
 
         public async Task<Deal> UploadPdfAndExtractExpensesAsync(string filePath)
@@ -109,6 +110,8 @@ namespace PDFTextractPOAnalyzer
                     };
 
                     Deal deal = new Deal();
+                    deal.FilePath = filePath;
+                    deal.FileName = startRequest.DocumentLocation.S3Object.Name;
                     var startResponse = await textractClient.StartExpenseAnalysisAsync(startRequest);
                     string jobId = startResponse.JobId;
                     Log.Information($"Textract job started with ID: {jobId}");
@@ -132,7 +135,7 @@ namespace PDFTextractPOAnalyzer
                         Log.Information("Textract job succeeded. Retrieving results...");
                         // Processing the response to retrieve the extracted expenses
                         var response = await textractClient.GetExpenseAnalysisAsync(new GetExpenseAnalysisRequest { JobId = jobId });
-                        deal = ProcessResponse(response); // Handling the response
+                        deal = ProcessResponse(deal,response); // Handling the response                        
                     }
                     else
                     {
@@ -153,14 +156,13 @@ namespace PDFTextractPOAnalyzer
 
             return null;
         }
-        private Deal ProcessResponse(GetExpenseAnalysisResponse response)
+        private Deal ProcessResponse(Deal deal,GetExpenseAnalysisResponse response)
         {
-            Deal deal = new Deal();
+            StringBuilder stringBuilder = new StringBuilder();
             deal.Company = new Company();
             deal.DeliveryAddress = new Address();
             deal.Emails = new List<string>();
-            deal.LineItems = new List<LineItems>();
-            StringBuilder stringBuilder = new StringBuilder();
+            deal.LineItems = new List<LineItems>();            
 
             try
             {
@@ -176,6 +178,7 @@ namespace PDFTextractPOAnalyzer
                         {
                             deal.Emails.Add(item.ValueDetection.Text);
                         }
+                        Console.WriteLine(item.ValueDetection.Text);
                         bool found = false;
                         // Handling each summary field type
                         switch (item.Type.Text)
@@ -198,17 +201,17 @@ namespace PDFTextractPOAnalyzer
                                 found = true;  
                                 break;
                             case "SUBTOTAL":
-                                deal.SubTotal = decimal.Parse(item.ValueDetection.Text.Trim('$'));
+                                deal.SubTotal = ExtractDecimalOnly(item.ValueDetection.Text);
                                 stringBuilder.Append($"SubTotal : {deal.SubTotal}");
                                 found = true;
                                 break;
                             case "TAX":
-                                deal.Tax = decimal.Parse(item.ValueDetection.Text.Trim('$'));
+                                deal.Tax = ExtractDecimalOnly(item.ValueDetection.Text);
                                 stringBuilder.Append($"Tax : {deal.Tax}");
                                 found = true;
                                 break;
                             case "TOTAL":
-                                deal.Total = decimal.Parse(item.ValueDetection.Text.Trim('$'));
+                                deal.Total = ExtractDecimalOnly(item.ValueDetection.Text);
                                 stringBuilder.Append($"Total : {deal.Total}");
                                 found = true;
                                 break;
@@ -243,26 +246,30 @@ namespace PDFTextractPOAnalyzer
                     }
 
                     Log.Information(stringBuilder.ToString());
+                    // Constructing the deal name
+                    //string dn = string.IsNullOrWhiteSpace(deal.PurchaseOrderNo) ? _email.Subject : deal.PurchaseOrderNo;
+                    //deal.DealName = $"TEST ORDER - {deal.Company.Name} - {dn}";
+                    deal.DealName = string.IsNullOrWhiteSpace(deal.PurchaseOrderNo) ? _email.Subject : deal.PurchaseOrderNo;
 
-                    //Constructing deal name
-                    deal.DealName = $" {deal.Company} - {deal.PurchaseOrderNo}";
-                    
+                    // Assigning the sales rep name
+                    deal.SalesRepName = _email.From;
+
                     Log.Information("End Of Summary Fields");
                     Log.Information("Line Items");
                     bool itemFound = false;
                     stringBuilder.Clear();
 
                     foreach (var itemLIG in itemR.LineItemGroups)
-                    {
-                        LineItems lineItem = new LineItems();
+                    {                        
                         stringBuilder.Clear();
 
                         foreach (var itemLI in itemLIG.LineItems)
                         {
                             stringBuilder.Clear();
-                            //stringBuilder.AppendLine();
+                            LineItems lineItem = new LineItems();
                             foreach (var itemLIE in itemLI.LineItemExpenseFields)
                             {
+                                Console.WriteLine(itemLIE.ValueDetection.Text);
                                 itemFound = false;
                                 switch (itemLIE.Type.Text)
                                 {
@@ -277,12 +284,12 @@ namespace PDFTextractPOAnalyzer
                                         itemFound = true;
                                         break;
                                     case "QUANTITY":
-                                        lineItem.Quantity = Convert.ToInt16(itemLIE.ValueDetection.Text);
+                                        lineItem.Quantity = ExtractDecimalOnly(itemLIE.ValueDetection.Text);
                                         stringBuilder.Append($"Qty : {lineItem.Quantity}");
                                         itemFound = true;
                                         break;
                                     case "UNIT_PRICE":
-                                        lineItem.UnitPrice = decimal.Parse(itemLIE.ValueDetection.Text.Trim('$'));
+                                        lineItem.UnitPrice = ExtractDecimalOnly(itemLIE.ValueDetection.Text.Trim('$'));
                                         stringBuilder.Append($"Price : {lineItem.UnitPrice}");
                                         itemFound = true;
                                         break;
@@ -300,8 +307,8 @@ namespace PDFTextractPOAnalyzer
                                 }
                             }
                             Log.Information(stringBuilder.ToString());
-                        }
-                        deal.LineItems.Add(lineItem);                        
+                            deal.LineItems.Add(lineItem);
+                        }                                               
                     }                    
                 }
             }
@@ -311,6 +318,29 @@ namespace PDFTextractPOAnalyzer
             }
 
             return deal;
+        }
+
+        private decimal ExtractDecimalOnly(string input)
+        {
+            string sanitizedInput = input.Replace(",", "");
+
+            // Define a regular expression to capture the decimal value
+            string pattern = @"(\d{1,3}(,\d{3})*|\d+)(\.\d{1,2})?\b";
+            Regex regex = new Regex(pattern);
+            Match match = regex.Match(sanitizedInput);
+
+            if (match.Success)
+            {
+                // Convert the matched value to a decimal
+                decimal result;
+                if (decimal.TryParse(match.Value, out result))
+                {
+                    return result;
+                }
+            }
+
+            Log.Error($"No decimal value found in the input string {input}");
+            return 0;
         }
 
     }
