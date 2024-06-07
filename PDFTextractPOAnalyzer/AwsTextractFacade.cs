@@ -7,6 +7,7 @@ using CoreLibrary.Models;
 using Microsoft.Extensions.Configuration;
 using PDFTextractPOAnalyzer.Core;
 using Serilog;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using S3Object = Amazon.Textract.Model.S3Object;
@@ -224,8 +225,9 @@ namespace PDFTextractPOAnalyzer
                                 // Removing spaces from ABN
                                 string a = Regex.Replace(item.ValueDetection.Text, @"\s+", "");
                                 // Check if the ABN is not A1Rubber ABN
-                                if (!a.Equals("85663589062"))
+                                if (!a.Equals("85663589062") && string.IsNullOrWhiteSpace(deal.Company.ABN))
                                 {
+                                               
                                     deal.Company.ABN = a;
                                     stringBuilder.Append($"ABN : {deal.Company.ABN}");
                                     found = true;
@@ -317,6 +319,11 @@ namespace PDFTextractPOAnalyzer
                 Log.Error(ex, "An error occurred while processing the Textract response");
             }
 
+            if(!string.IsNullOrWhiteSpace(_email.Message))
+            {
+                deal.OrderNotes= ProcessEmailBody(_email.Message);
+            }
+
             return deal;
         }
 
@@ -341,6 +348,26 @@ namespace PDFTextractPOAnalyzer
 
             Log.Error($"No decimal value found in the input string {input}");
             return 0;
+        }
+
+        private string ProcessEmailBody(string emailContent)
+        {
+            // Define a regex pattern to capture the email body up to specific keywords
+            string pattern = @"\r\n\r\n\r\n(.*?)(Thanks|Regards|Best Wishes|Cheers|Thank You|From: )";
+            Match match = Regex.Match(emailContent, pattern, RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+            if (match.Success)
+            {
+                // Extract and clean the body content
+                string emailBody = match.Groups[1].Value.Trim();
+                return System.Net.WebUtility.HtmlDecode(emailBody);
+            }
+            else
+            {
+                Log.Information("Could not extract the email body content.");
+            }
+
+            return "";
         }
 
     }
