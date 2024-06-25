@@ -5,15 +5,9 @@ using Amazon.Textract;
 using Amazon.Textract.Model;
 using CoreLibrary.Models;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using PDFTextractPOAnalyzer.Core;
 using Serilog;
-using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Xml;
-using Formatting = Newtonsoft.Json.Formatting;
 using S3Object = Amazon.Textract.Model.S3Object;
 
 namespace PDFTextractPOAnalyzer
@@ -97,22 +91,7 @@ namespace PDFTextractPOAnalyzer
                 Log.Error(ex, "An unexpected error occurred while uploading PDF to S3.");
             }
         }
-
-        //private async Task<Deal> ReadDocumentAsync(string accessKey, string secretKey)
-        //{
-        //    try
-        //    {
-        //        using (var comprehendClient = new AmazonComprehendClient(accessKey, secretKey, _region))
-        //        {
-
-        //        }
-        //    }
-        //    catch(AmazonTextractException ex)
-        //    {
-
-        //    }
-
-        //}
+      
         private async Task<string> StartDocumentAnalysisAsync(string accessKey, string secretKey, string bucketName, string filePath)
         {
             string analyzedString = "";
@@ -414,32 +393,36 @@ namespace PDFTextractPOAnalyzer
         public static List<KeyValuePair<string, string>> RetrieveHeaderMappingsFromDatabase()
         {
             var headerMappings = new List<KeyValuePair<string, string>>
-        {
-            new KeyValuePair<string, string>("part #", "SKU" ),
-            new KeyValuePair<string, string>("vendor code", "SKU" ),
-            new KeyValuePair<string, string>("part id", "SKU"),
-            new KeyValuePair<string, string>("product code", "SKU" ),
-            new KeyValuePair<string, string>("budget code", "SKU" ),
-            new KeyValuePair<string, string>("item", "SKU" ),
+            {
+                new KeyValuePair<string, string>("part #", "SKU" ),
+                new KeyValuePair<string, string>("vendor code", "SKU" ),
+                new KeyValuePair<string, string>("part id", "SKU"),
+                new KeyValuePair<string, string>("product code", "SKU" ),
+                new KeyValuePair<string, string>("budget code", "SKU" ),
+                new KeyValuePair<string, string>("item", "SKU" ),
+                new KeyValuePair<string, string>("item code", "SKU" ),
             
-            //new KeyValuePair<string, string>("item", "Name" ),
-            new KeyValuePair<string, string>("description", "Name" ),
+                //new KeyValuePair<string, string>("item", "Name" ),
+                new KeyValuePair<string, string>("description", "Name" ),
+                new KeyValuePair<string, string>("description of goods or services", "Name" ),
 
-            new KeyValuePair<string, string>("quantity", "Quantity" ),
-            new KeyValuePair<string, string>("qty", "Quantity" ),
-            new KeyValuePair<string, string>("amount ordered", "Quantity" ),
-            new KeyValuePair<string, string>("quantity ordered", "Quantity" ),
+                new KeyValuePair<string, string>("quantity", "Quantity" ),
+                new KeyValuePair<string, string>("qty", "Quantity" ),
+                new KeyValuePair<string, string>("amount ordered", "Quantity" ),
+                new KeyValuePair<string, string>("quantity ordered", "Quantity" ),
 
-            new KeyValuePair<string, string>("unit price", "UnitPrice" ),
-            new KeyValuePair<string, string>("quoted unit price", "UnitPrice" ),
-            new KeyValuePair<string, string>("unit cost", "UnitPrice" ),
-            new KeyValuePair<string, string>("quoted price", "UnitPrice" ),
+                new KeyValuePair<string, string>("unit price", "UnitPrice" ),
+                new KeyValuePair<string, string>("quoted unit price", "UnitPrice" ),
+                new KeyValuePair<string, string>("unit cost", "UnitPrice" ),
+                new KeyValuePair<string, string>("quoted price", "UnitPrice" ),
+                new KeyValuePair<string, string>("exec unit price", "UnitPrice" ),
 
-            new KeyValuePair<string, string>( "discount", "Discount" ),
+                new KeyValuePair<string, string>( "discount", "Discount" ),
 
-            new KeyValuePair<string, string>("net price", "NetPrice" )
+                new KeyValuePair<string, string>("net price", "NetPrice" ),
+                new KeyValuePair<string, string>("amount aud", "NetPrice" )
 
-        };
+            };
 
             return headerMappings;
         }
