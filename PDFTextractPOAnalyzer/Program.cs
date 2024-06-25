@@ -4,9 +4,13 @@ using PDFTextractPOAnalyzer;
 
 public class Program
 {
+
     // For testing purposes only
     public static async Task Main(string[] args)
     {
+        
+
+
         // Get the config details
         IConfiguration config = new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
@@ -16,4 +20,8 @@ public class Program
         ProcessPdf processPdf = new ProcessPdf(config);
         await processPdf.ProcessPdfAsync(new Email());
     }
+
+    
+
+
 }

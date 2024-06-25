@@ -111,7 +111,7 @@
           "dependencies": {
             "AWSSDK.Core": {
               "target": "Package",
-              "version": "[3.7.303.25, )"
+              "version": "[3.7.304.18, )"
             },
             "AWSSDK.S3": {
               "target": "Package",
@@ -136,6 +136,10 @@
             "Microsoft.Extensions.Configuration.UserSecrets": {
               "target": "Package",
               "version": "[8.0.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             },
             "Serilog": {
               "target": "Package",

@@ -19,15 +19,6 @@ namespace PDFTextractPOAnalyzer
         {            
             var region = RegionEndpoint.APSoutheast2;
          
-            // Configure the logging file
-            //Log.Logger = new LoggerConfiguration()
-            //       .MinimumLevel.Debug()
-            //       .WriteTo.File($"{_config["Logging:Path"]} - {DateTime.Now.ToString("yyyyMMdd_HHmmss")}.txt",
-            //           rollingInterval: RollingInterval.Day,
-            //           restrictedToMinimumLevel: LogEventLevel.Debug,
-            //           shared: true)
-            //       .CreateLogger();
-
             Log.Information("---PDFAnalyzer Started---");
 
 
@@ -37,13 +28,14 @@ namespace PDFTextractPOAnalyzer
                 return null;
             }
 
-            string filePath = $"{email.FilePath}\\{email.FileName}";
+            //string filePath = $"{email.FilePath}\\{email.FileName}";
+            string filePath = "d:\\attachments\\Clever Move - Purchase Order PO0026.pdf";
 
             var textractFacade = new AwsTextractFacade(_config, region, email);
 
             try
             {
-                Deal deal = await textractFacade.UploadPdfAndExtractExpensesAsync(filePath);
+                Deal deal = await textractFacade.UploadPdfAndExtractDocumentAsync(filePath);
 
                 return deal;
             }
