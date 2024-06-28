@@ -362,13 +362,18 @@ namespace PDFTextractPOAnalyzer
                 new KeyValuePair<string, string>("budget code", "SKU" ),
                 new KeyValuePair<string, string>("item", "SKU" ),
                 new KeyValuePair<string, string>("item code", "SKU" ),
+                new KeyValuePair<string, string>("supplier item code", "SKU" ),
+                new KeyValuePair<string, string>("item no", "SKU" ),
+                new KeyValuePair<string, string>("item no.", "SKU" ),
             
                 //new KeyValuePair<string, string>("item", "Name" ),
                 new KeyValuePair<string, string>("description", "Name" ),
                 new KeyValuePair<string, string>("description of goods or services", "Name" ),
+                new KeyValuePair<string, string>("item description", "Name" ),
 
                 new KeyValuePair<string, string>("quantity", "Quantity" ),
                 new KeyValuePair<string, string>("qty", "Quantity" ),
+                new KeyValuePair<string, string>("qty.", "Quantity" ),
                 new KeyValuePair<string, string>("amount ordered", "Quantity" ),
                 new KeyValuePair<string, string>("quantity ordered", "Quantity" ),
 
@@ -377,8 +382,10 @@ namespace PDFTextractPOAnalyzer
                 new KeyValuePair<string, string>("unit cost", "UnitPrice" ),
                 new KeyValuePair<string, string>("quoted price", "UnitPrice" ),
                 new KeyValuePair<string, string>("exec unit price", "UnitPrice" ),
+                new KeyValuePair<string, string>("ex price", "UnitPrice" ),
 
                 new KeyValuePair<string, string>( "discount", "Discount" ),
+                new KeyValuePair<string, string>( "disc %", "Discount" ),
 
                 new KeyValuePair<string, string>("net price", "NetPrice" ),
                 new KeyValuePair<string, string>("amount aud", "NetPrice" )
