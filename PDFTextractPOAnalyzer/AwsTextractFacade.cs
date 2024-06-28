@@ -289,63 +289,27 @@ namespace PDFTextractPOAnalyzer
 
                 if (propertyName == "SKU")
                 {
-                    headerActions[headerName] = (lineItem, value) => 
-                    {
-                        if (!string.IsNullOrEmpty(value))
-                        {
-                            lineItem.SKU = value;
-                        }
-                    };
+                    headerActions[headerName] = (lineItem, value) => lineItem.SKU = value;
                 }
                 else if (propertyName == "Name")
                 {
-                    headerActions[headerName] = (lineItem, value) =>
-                    {
-                        if (!string.IsNullOrEmpty(value))
-                        {
-                            lineItem.Name = value;
-                        }
-                    };
+                    headerActions[headerName] = (lineItem, value) => lineItem.Name = value;
                 }
                 else if (propertyName == "Quantity")
                 {
-                    headerActions[headerName] = (lineItem, value) =>
-                    {
-                        if (!string.IsNullOrEmpty(value))
-                        {
-                            lineItem.Quantity = Convert.ToDecimal(RemoveNonNumeric(value));
-                        }
-                    };
+                    headerActions[headerName] = (lineItem, value) => lineItem.Quantity = RemoveNonNumeric(value);
                 }
                 else if (propertyName == "UnitPrice")
                 {
-                    headerActions[headerName] = (lineItem, value) =>
-                    {
-                        if (!string.IsNullOrEmpty(value))
-                        {
-                            lineItem.UnitPrice = Convert.ToDecimal(RemoveNonNumeric(value));
-                        }
-                    };
+                    headerActions[headerName] = (lineItem, value) => lineItem.UnitPrice = RemoveNonNumeric(value);
                 }
                 else if (propertyName == "Discount")
                 {
-                    headerActions[headerName] = (lineItem, value) =>
-                    {
-                        if (!string.IsNullOrEmpty(value))
-                        {
-                            lineItem.Discount = Convert.ToDecimal(RemoveNonNumeric(value));
-                        }
-                    };
+                    headerActions[headerName] = (lineItem, value) => lineItem.Discount = RemoveNonNumeric(value);
                 }
                 else if (propertyName == "NetPrice")
                 {
-                    headerActions[headerName] = (lineItem, value) =>
-                    {
-                        if (!string.IsNullOrEmpty(value))
-                        {
-                            lineItem.NetPrice = Convert.ToDecimal(RemoveNonNumeric(value));
-                        }
-                    };
+                    headerActions[headerName] = (lineItem, value) => lineItem.NetPrice = RemoveNonNumeric(value);
                 }
             }
             // Iterate through product rows (rows after the header row)
@@ -364,10 +328,7 @@ namespace PDFTextractPOAnalyzer
                     {
                         if (cell.Key == header.Value && headerActions.TryGetValue(header.Key, out var action))
                         {
-                            if (!string.IsNullOrWhiteSpace(cell.Value))
-                            {
-                                lineItem.ExpenseRaw += cell.Value + " ";
-                            }
+                            lineItem.ExpenseRaw += cell.Value + " ";
                             action(lineItem, cell.Value);
                             break; // Once matched and processed, break out of inner loop
                         }
@@ -381,7 +342,7 @@ namespace PDFTextractPOAnalyzer
                 }
             }
 
-            Console.WriteLine($"Total line items: {lineItems.Count}");
+            //Console.WriteLine($"Total line items: {lineItems.Count}");
             return lineItems;
         }
         private static bool IsHeader(string value, List<KeyValuePair<string, string>> headerMappings)
