@@ -24,7 +24,7 @@ namespace PDFTextractPOAnalyzer
             _email = email;
         }
 
-        public async Task<Deal> UploadPdfAndExtractDocumentAsync(string filePath)
+        public async Task<Deal> UploadPdfAndExtractPOAsync(string filePath)
         {
             var accessKey = _config["AWS:AccessKey"];
             var secretKey = _config["AWS:SecretKey"];
@@ -35,8 +35,14 @@ namespace PDFTextractPOAnalyzer
                 // Upload the PDF document to S3
                 await UploadPdfToS3Async(s3Client, filePath);
 
-                // Start a Document Analysis job to analyze the document
-                var d = await StartDocumentAnalysisAsync(accessKey, secretKey, bucketName, filePath);
+                // Start document analysis job to analyze the document
+                var lineItems = await StartDocumentAnalysisAsync(accessKey, secretKey, bucketName, filePath);
+
+                // Start expnese analysis job to analyze the document
+                Deal dealSummary = await StartExpenseAnalysisAsync(accessKey, secretKey, bucketName, filePath);
+
+                dealSummary.LineItems = lineItems;
+               
 
                 return null; 
             }
@@ -92,9 +98,9 @@ namespace PDFTextractPOAnalyzer
             }
         }
       
-        private async Task<string> StartDocumentAnalysisAsync(string accessKey, string secretKey, string bucketName, string filePath)
+        private async Task<List<LineItems>> StartDocumentAnalysisAsync(string accessKey, string secretKey, string bucketName, string filePath)
         {
-            string analyzedString = "";
+            List<LineItems> processedLineItems = new List<LineItems>();
             try
             {
                 using (var textractClient = new AmazonTextractClient(accessKey, secretKey, _region))
@@ -109,17 +115,8 @@ namespace PDFTextractPOAnalyzer
                                 Name = Path.GetFileName(filePath)
                             }
                         },
-                        FeatureTypes = new List<string> { "TABLES", "FORMS", "QUERIES" },
-                        QueriesConfig = new QueriesConfig
-                        {
-                            Queries = new List<Query>
-                    {
-                        new Query { Text = "What is the purchase order number?", Alias = "PurchaseOrder" },
-                        new Query { Text = "What are the product codes?", Alias = "ProductCode" },
-                        new Query { Text = "What are the product names?", Alias = "ProductName" },
-                        new Query { Text = "What are the quantities?", Alias = "Quantity" }
-                    }
-                        }
+                        FeatureTypes = new List<string> { "TABLES", "FORMS" }
+                        
                     };
 
                     var startResponse = await textractClient.StartDocumentAnalysisAsync(startRequest);
@@ -129,18 +126,18 @@ namespace PDFTextractPOAnalyzer
                     // Check Textract job status and wait until it's complete
                     StringBuilder stringBuilder = new StringBuilder();
                     stringBuilder.Append("Document Analysis Started");
-                    JobStatus jobStatus = JobStatus.IN_PROGRESS;
-                    while (jobStatus == JobStatus.IN_PROGRESS)
+                    JobStatus docAnalysisJobStatus = JobStatus.IN_PROGRESS;
+                    while (docAnalysisJobStatus == JobStatus.IN_PROGRESS)
                     {
-                        var response = await textractClient.GetDocumentAnalysisAsync(new GetDocumentAnalysisRequest { JobId = jobId });
-                        jobStatus = response.JobStatus;
+                        var docAnalysisResponse = await textractClient.GetDocumentAnalysisAsync(new GetDocumentAnalysisRequest { JobId = jobId });
+                        docAnalysisJobStatus = docAnalysisResponse.JobStatus;
                         await Task.Delay(TimeSpan.FromSeconds(5)); // Wait for 5 seconds before checking again
-                        stringBuilder.Append("Checked at : " + DateTime.Now + " " + jobStatus.ToString());
+                        stringBuilder.Append("Checked at : " + DateTime.Now + " " + docAnalysisJobStatus.ToString());
                     }
 
                     Log.Information(stringBuilder.ToString());
 
-                    if (jobStatus == JobStatus.SUCCEEDED)
+                    if (docAnalysisJobStatus == JobStatus.SUCCEEDED)
                     {
                         Log.Information("Textract job succeeded. Retrieving results...");
                         // Fetch all pages of the response
@@ -154,14 +151,14 @@ namespace PDFTextractPOAnalyzer
                             allBlocks.AddRange(response.Blocks);
                         }
 
-                        analyzedString = ProcessDocumentAnalysisResponse(allBlocks); // Handling the response                        
+                        processedLineItems = ProcessDocumentAnalysisResponse(allBlocks); // Handling the response                        
                     }
                     else
                     {
-                        Log.Error($"Textract job failed with status: {jobStatus}");
+                        Log.Error($"Textract job failed with status: {docAnalysisJobStatus}");
                     }
 
-                    return analyzedString;
+                    return processedLineItems;
                 }
             }
             catch (AmazonTextractException ex)
@@ -176,10 +173,11 @@ namespace PDFTextractPOAnalyzer
             return null;
         }
 
-        private string ProcessDocumentAnalysisResponse(List<Block> blocks)
+        private List<LineItems> ProcessDocumentAnalysisResponse(List<Block> blocks)
         {
             StringBuilder resultBuilder = new StringBuilder();
             List<KeyValuePair<string, string>> headerMappings = RetrieveHeaderMappingsFromDatabase();
+            List<LineItems> processedLineItems = new List<LineItems>();
             // Find all table blocks
             var tableBlocks = blocks.Where(b => b.BlockType == "TABLE").ToList();
 
@@ -215,25 +213,31 @@ namespace PDFTextractPOAnalyzer
                     rowMap[rowIndex][columnIndex] = cellText;
                 }
 
-                var lineItems = MapToLineItems(rowMap,headerMappings);
+                processedLineItems = MapToLineItems(rowMap,headerMappings);
 
-                // Now, map each row to column names
-                foreach (var row in rowMap)
-                {
-                    resultBuilder.AppendLine($"Row {row.Key}:");
-                    Console.WriteLine($"Row {row.Key}:");
 
-                    foreach (var column in row.Value)
-                    {
-                        resultBuilder.AppendLine($"Column {column.Key}: {column.Value}");
-                        Console.WriteLine($"Column {column.Key}: {column.Value}");
-                    }
+
+
+
+
+                //// Now, map each row to column names
+                //foreach (var row in rowMap)
+                //{
+                //    resultBuilder.AppendLine($"Row {row.Key}:");
+                //    Console.WriteLine($"Row {row.Key}:");
+
+                //    foreach (var column in row.Value)
+                //    {
+                //        resultBuilder.AppendLine($"Column {column.Key}: {column.Value}");
+                //        Console.WriteLine($"Column {column.Key}: {column.Value}");
+                //    }
 
                                       
-                }
+                //}
             }
 
-            return resultBuilder.ToString();
+            //return resultBuilder.ToString();
+            return processedLineItems;
         }
 
         public static List<LineItems> MapToLineItems(Dictionary<int, Dictionary<int, string>> rowMap, List<KeyValuePair<string, string>> headerMappings)

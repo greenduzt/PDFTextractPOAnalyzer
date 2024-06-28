@@ -35,7 +35,7 @@ namespace PDFTextractPOAnalyzer
 
             try
             {
-                Deal deal = await textractFacade.UploadPdfAndExtractDocumentAsync(filePath);
+                Deal deal = await textractFacade.UploadPdfAndExtractPOAsync(filePath);
 
                 return deal;
             }
