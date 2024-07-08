@@ -8,19 +8,18 @@ namespace PDFTextractPOAnalyzer
 {
     public class ProcessPdf
     {
-        private readonly IConfiguration _config;
+        private readonly AwsTextractFacade _textractFacade;
+        private readonly string _bucketName;
 
-        public ProcessPdf(IConfiguration config)
+        public ProcessPdf(AwsTextractFacade textractFacade, IConfiguration config)
         {
-            _config = config;
+            _textractFacade = textractFacade;
+            _bucketName = config["AWS:BucketName"];
         }
 
         public async Task<Deal> ProcessPdfAsync(Email email)
-        {            
-            var region = RegionEndpoint.APSoutheast2;
-         
+        {
             Log.Information("---PDFAnalyzer Started---");
-
 
             if (email == null)
             {
@@ -28,15 +27,11 @@ namespace PDFTextractPOAnalyzer
                 return null;
             }
 
-            //string filePath = $"{email.FilePath}\\{email.FileName}";
-            string filePath = "d:\\attachments\\Clever Move - Purchase Order PO0026.pdf";
-
-            var textractFacade = new AwsTextractFacade(_config, region, email);
+            string filePath = Path.Combine(email.FilePath, email.FileName);
 
             try
             {
-                Deal deal = await textractFacade.UploadPdfAndExtractPOAsync(filePath);
-
+                Deal deal = await _textractFacade.UploadPdfAndExtractPOAsync(filePath, _bucketName);
                 return deal;
             }
             catch (Exception ex)
@@ -46,12 +41,11 @@ namespace PDFTextractPOAnalyzer
             finally
             {
                 Log.Information("---PDFAnalyzer Ended---");
-                // Close and flush the Serilog logger
-                //Log.CloseAndFlush();
             }
 
             return null;
         }
-
     }
+
+
 }

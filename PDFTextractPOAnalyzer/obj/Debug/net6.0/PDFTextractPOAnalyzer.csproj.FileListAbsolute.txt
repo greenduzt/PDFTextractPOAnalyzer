@@ -58,10 +58,13 @@ D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\PDFText
 D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\PDFTextractPOAnalyzer.AssemblyInfoInputs.cache
 D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\PDFTextractPOAnalyzer.AssemblyInfo.cs
 D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\PDFTextractPOAnalyzer.csproj.CoreCompileInputs.cache
-D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\PDFTextractPOAnalyzer.csproj.CopyComplete
 D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\PDFTextractPOAnalyzer.dll
 D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\refint\PDFTextractPOAnalyzer.dll
 D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\PDFTextractPOAnalyzer.pdb
 D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\PDFTextractPOAnalyzer.genruntimeconfig.cache
 D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\ref\PDFTextractPOAnalyzer.dll
 D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\Newtonsoft.Json.dll
+D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\PDFTextractPOAnalyzer.sourcelink.json
+D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\obj\Debug\net6.0\PDFTextr.1346E5C5.Up2Date
+D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
+D:\Projects\PDFTextractPOAnalyzer\PDFTextractPOAnalyzer\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll

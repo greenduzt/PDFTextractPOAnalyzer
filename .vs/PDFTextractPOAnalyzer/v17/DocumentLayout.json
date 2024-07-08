@@ -1,0 +1,74 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Projects\\PDFTextractPOAnalyzer\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8C1F568A-3A47-48F4-BEE1-25AB6E4A7E66}|PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer.csproj|d:\\projects\\pdftextractpoanalyzer\\pdftextractpoanalyzer\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C1F568A-3A47-48F4-BEE1-25AB6E4A7E66}|PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer.csproj|solutionrelative:pdftextractpoanalyzer\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C1F568A-3A47-48F4-BEE1-25AB6E4A7E66}|PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer.csproj|d:\\projects\\pdftextractpoanalyzer\\pdftextractpoanalyzer\\processpdf.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C1F568A-3A47-48F4-BEE1-25AB6E4A7E66}|PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer.csproj|solutionrelative:pdftextractpoanalyzer\\processpdf.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C1F568A-3A47-48F4-BEE1-25AB6E4A7E66}|PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer.csproj|d:\\projects\\pdftextractpoanalyzer\\pdftextractpoanalyzer\\services\\textractservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C1F568A-3A47-48F4-BEE1-25AB6E4A7E66}|PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer.csproj|solutionrelative:pdftextractpoanalyzer\\services\\textractservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Projects\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\Program.cs",
+              "RelativeDocumentMoniker": "PDFTextractPOAnalyzer\\Program.cs",
+              "ToolTip": "D:\\Projects\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\Program.cs",
+              "RelativeToolTip": "PDFTextractPOAnalyzer\\Program.cs",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAnwC0AAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-17T03:13:57.481Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TextractService.cs",
+              "DocumentMoniker": "D:\\Projects\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\Services\\TextractService.cs",
+              "RelativeDocumentMoniker": "PDFTextractPOAnalyzer\\Services\\TextractService.cs",
+              "ToolTip": "D:\\Projects\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\Services\\TextractService.cs",
+              "RelativeToolTip": "PDFTextractPOAnalyzer\\Services\\TextractService.cs",
+              "ViewState": "AQIAAIgAAAAAAAAAAAAvwJwAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-08T05:28:41.378Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProcessPdf.cs",
+              "DocumentMoniker": "D:\\Projects\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\ProcessPdf.cs",
+              "RelativeDocumentMoniker": "PDFTextractPOAnalyzer\\ProcessPdf.cs",
+              "ToolTip": "D:\\Projects\\PDFTextractPOAnalyzer\\PDFTextractPOAnalyzer\\ProcessPdf.cs",
+              "RelativeToolTip": "PDFTextractPOAnalyzer\\ProcessPdf.cs",
+              "ViewState": "AQIAABMAAAAAAAAAAAAnwC4AAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-08T04:56:02.412Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
